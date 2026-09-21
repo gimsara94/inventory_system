@@ -104,6 +104,18 @@ Set `APP_DATABASE_URL`, `JWT_SECRET`, `PUBLIC_ORIGIN`, and `NODE_ENV=production`
 
 GitHub stores the source and runs the tests in `.github/workflows/test.yml`; it does not host the Express process or PostgreSQL database by itself. Keep `backend/.env` and `backend/.env.migrate` local. Both are excluded from Git.
 
+### Deploy on Vercel
+
+Vercel ignores `express.static()`, so create **two Vercel projects** from this GitHub repository. The root `backend/app.js` exports the Express app for Vercel. The React build is deployed separately. A rewrite on the frontend project keeps browser requests to `/api` on the frontend domain, where the session cookie is stored.
+
+1. Run the migrations, `setup-app-role`, and `bootstrap-admin` locally as described above if you have not already done so. The Vercel function must use the limited `APP_DATABASE_URL`; never give it `MIGRATION_DATABASE_URL` or `DATABASE_URL`.
+2. In Vercel, import `gimsara94/inventory_system` as a web project. Set **Root Directory** to `frontend` and select the **Vite** preset. Build Command is `npm run build`, Output Directory is `dist`. Deploy and note its stable production URL, such as `https://your-web-project.vercel.app`.
+3. Import the same repository again as a separate API project. Set **Root Directory** to `backend` and select the **Express** framework preset if Vercel asks. Before deploying, set these Production environment variables under Project Settings → Environment Variables: `APP_DATABASE_URL` and `JWT_SECRET` from the private `backend/.env` file (mark both sensitive), `NODE_ENV=production`, and `PUBLIC_ORIGIN` equal to the exact frontend production URL (scheme and hostname, no trailing slash). The runtime `APP_DATABASE_URL` must use the Supabase pooler, not an IPv6-only direct host. Never paste database secrets into Git or the frontend project. Deploy and note the API project's stable production URL.
+4. In the web project's **CDN → Routing** settings, publish a rewrite from `/api/:path*` to `https://your-api-project.vercel.app/api/:path*`. Use the API project's stable production URL, not a preview URL. If you prefer version-controlled routing, add the same rewrite to `frontend/vercel.json` and redeploy the web project.
+5. Visit `https://your-web-project.vercel.app/api/health`; it should return `{"status":"ok"}`. Then open the web URL, sign in as the first admin, add an item, and adjust its stock. Vercel Preview URLs have different origins, so browser login on previews requires a matching `PUBLIC_ORIGIN` setup; this recipe targets the stable production URL.
+
+Vercel environment variable changes affect new deployments, so redeploy after setting or updating them. All API responses use `Cache-Control: no-store`; leave API caching disabled in the routing rule.
+
 ## Verification
 
 From `backend/`, run the complete automated test suite:
