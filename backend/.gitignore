@@ -1,0 +1,4 @@
+.env
+.env.migrate
+node_modules/
+coverage/
