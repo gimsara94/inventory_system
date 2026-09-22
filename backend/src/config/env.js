@@ -21,10 +21,10 @@ export function requireConfig() {
   if (!jwtSecret || Buffer.byteLength(jwtSecret) < 32 || jwtSecret.startsWith('replace-with-')) {
     throw new Error('JWT_SECRET must contain at least 32 bytes of random text, not the example value.');
   }
-  const origin = new URL(process.env.PUBLIC_ORIGIN || 'http://localhost:5173');
-  if (!['http:', 'https:'].includes(origin.protocol)) throw new Error('PUBLIC_ORIGIN must be an HTTP or HTTPS origin.');
+  const origin = new URL(process.env.INVENTORY_ORIGIN || process.env.PUBLIC_ORIGIN || 'http://localhost:5173');
+  if (!['http:', 'https:'].includes(origin.protocol)) throw new Error('INVENTORY_ORIGIN must be an HTTP or HTTPS origin.');
   if (process.env.NODE_ENV === 'production' && origin.protocol !== 'https:') {
-    throw new Error('PUBLIC_ORIGIN must use HTTPS in production.');
+    throw new Error('INVENTORY_ORIGIN must use HTTPS in production.');
   }
   const caPath = process.env.DATABASE_CA_CERT || fileURLToPath(new URL('../../certs/supabase-root-2021.crt', import.meta.url));
   return {
