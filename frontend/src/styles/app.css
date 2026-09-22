@@ -254,10 +254,12 @@ td small { display: block; margin-top: .18rem; color: var(--muted); font-size: .
 .login-submit { width: 100%; min-height: 46px; margin-top: 1.2rem; }
 .login-help { margin: 1rem 0 0; color: var(--muted); font-size: .7rem; text-align: center; }
 
-.app-loading { min-height: 100vh; display: grid; grid-template-columns: auto auto; place-content: center; align-items: center; gap: .8rem; color: var(--muted); }
-.app-loading p { grid-column: 1 / -1; margin: 0; font-size: .78rem; }
+.app-loading { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .8rem; color: var(--muted); }
+.app-loading .brand-logo { animation: logo-breathe 1.8s ease-in-out infinite; }
+.app-loading p { margin: 0; font-size: .78rem; }
 .spinner { width: 16px; height: 16px; display: inline-block; border: 2px solid rgb(255 255 255 / 40%); border-top-color: #fff; border-radius: 50%; animation: spin .65s linear infinite; }
 .spinner.dark { border-color: #d0d0d3; border-top-color: var(--black); }
+@keyframes logo-breathe { 0%, 100% { transform: scale(.96); } 50% { transform: scale(1.06); } }
 footer { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.4rem; padding: 1.1rem .2rem 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .68rem; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
