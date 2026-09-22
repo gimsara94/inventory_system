@@ -173,7 +173,7 @@ export default function App() {
         formatAmount(item.quantity), item.unit, formatAmount(item.minimum), formatMoney(item.unit_cost), formatMoney(item.value)]));
   }
 
-  if (authLoading) return <main className="app-loading"><BrandLogo /><span className="spinner dark" /><p>Opening Falcon Inventory…</p></main>;
+  if (authLoading) return <main className="app-loading"><BrandLogo /><p>Opening Falcon Inventory…</p></main>;
   if (!user) return <Login onLogin={nextUser => { setUser(nextUser); setNotice(null); }} />;
 
   const title = headings[tab];
