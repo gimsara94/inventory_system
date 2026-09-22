@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrandLogo } from './BrandLogo.jsx';
 import { Icon } from './Icon.jsx';
 
 export function TopBar({ user, onLogout }) {
@@ -6,7 +7,7 @@ export function TopBar({ user, onLogout }) {
   return <header className="topbar">
     <div className="topbar-inner">
       <a className="brand" href="#top" aria-label="Workshop Inventory home">
-        <span className="brand-symbol">W</span>
+        <BrandLogo />
         <span>Workshop Inventory<small>TOOLS · PARTS · MATERIALS</small></span>
       </a>
       <div className="account">

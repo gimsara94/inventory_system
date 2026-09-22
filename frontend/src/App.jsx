@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { BrandLogo } from './components/BrandLogo.jsx';
 import { HistoryPanel } from './components/HistoryPanel.jsx';
 import { Icon } from './components/Icon.jsx';
 import { InventoryPanel } from './components/InventoryPanel.jsx';
@@ -172,7 +173,7 @@ export default function App() {
         formatAmount(item.quantity), item.unit, formatAmount(item.minimum), formatMoney(item.unit_cost), formatMoney(item.value)]));
   }
 
-  if (authLoading) return <main className="app-loading"><span className="brand-symbol">W</span><span className="spinner dark" /><p>Opening workshop inventory…</p></main>;
+  if (authLoading) return <main className="app-loading"><BrandLogo /><span className="spinner dark" /><p>Opening workshop inventory…</p></main>;
   if (!user) return <Login onLogin={nextUser => { setUser(nextUser); setNotice(null); }} />;
 
   const [eyebrow, title, description] = headings[tab];
