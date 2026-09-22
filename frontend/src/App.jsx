@@ -16,9 +16,9 @@ import { formatAmount, formatMoney, requestId } from './utils/format.js';
 
 const emptyFilters = { q: '', category: '', low: false, archived: false };
 const headings = {
-  inventory: ['WORKSHOP OVERVIEW', 'Every item, accounted for.', 'Track what you have, what you use, and what needs restocking.'],
-  history: ['STOCK ACTIVITY', 'Every movement, clearly recorded.', 'Review what came in, what went out, and who recorded it.'],
-  users: ['TEAM ACCESS', 'The right access for every person.', 'Create staff accounts and manage access to the inventory.'],
+  inventory: 'Inventory',
+  history: 'History',
+  users: 'Manage Users',
 };
 
 export default function App() {
@@ -173,15 +173,15 @@ export default function App() {
         formatAmount(item.quantity), item.unit, formatAmount(item.minimum), formatMoney(item.unit_cost), formatMoney(item.value)]));
   }
 
-  if (authLoading) return <main className="app-loading"><BrandLogo /><span className="spinner dark" /><p>Opening workshop inventory…</p></main>;
+  if (authLoading) return <main className="app-loading"><BrandLogo /><span className="spinner dark" /><p>Opening Falcon Inventory…</p></main>;
   if (!user) return <Login onLogin={nextUser => { setUser(nextUser); setNotice(null); }} />;
 
-  const [eyebrow, title, description] = headings[tab];
+  const title = headings[tab];
   return <div id="top" className="app-frame">
     <TopBar user={user} onLogout={logout} />
     <main className="shell">
       <header className="page-heading">
-        <div><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p className="muted">{description}</p></div>
+        <div><h1>{title}</h1></div>
         {tab === 'inventory' && <button className="primary desktop-add" onClick={() => setModal({ type: 'item', item: null })}>
           <Icon name="plus" />Add item</button>}
       </header>
@@ -198,7 +198,7 @@ export default function App() {
         <button className={tab === 'history' ? 'active' : ''} onClick={() => { setFocusedItem(null); setTab('history'); }} aria-current={tab === 'history' ? 'page' : undefined}>
           <Icon name="history" />History</button>
         {user.role === 'admin' && <button className={tab === 'users' ? 'active' : ''} onClick={() => setTab('users')} aria-current={tab === 'users' ? 'page' : undefined}>
-          <Icon name="users" />Users</button>}
+          <Icon name="users" />Manage Users</button>}
       </nav>
 
       {tab === 'inventory' && <InventoryPanel items={items} filters={filters} setFilters={setFilters}
@@ -214,7 +214,7 @@ export default function App() {
       {tab === 'users' && user.role === 'admin' && <UsersPanel users={users} currentUser={user}
         loading={usersLoading} onRefresh={loadUsers} notify={notify} />}
 
-      <footer><span>Workshop Inventory</span><span>Changes are stored securely in your PostgreSQL database.</span></footer>
+      <footer><span>Falcon Inventory</span><span>Changes are stored securely in your PostgreSQL database.</span></footer>
     </main>
     {modal?.type === 'item' && <ItemForm item={modal.item} currency={currency}
       categories={summary?.categories || []} close={() => setModal(null)} saved={modalSaved} />}

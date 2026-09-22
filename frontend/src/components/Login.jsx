@@ -28,11 +28,9 @@ export function Login({ onLogin }) {
 
   return <main className="login-page">
     <section className="login-visual" aria-hidden="true">
-      <div className="login-brand"><BrandLogo /><span>Workshop Inventory</span></div>
       <div className="login-copy">
         <BrandLogo className="login-hero-logo" />
-        <p className="eyebrow eyebrow-light">TOOLS · PARTS · MATERIALS</p>
-        <h1>Know what’s on the shelf.</h1>
+        <h1>Falcon Inventory</h1>
         <p>Keep stock accurate, find parts quickly, and spot shortages before they slow down the workshop.</p>
       </div>
       <div className="login-preview">
@@ -48,7 +46,7 @@ export function Login({ onLogin }) {
     </section>
     <section className="login-form-side">
       <form className="login-card" onSubmit={submit}>
-        <div className="login-mobile-brand"><BrandLogo /><strong>Workshop Inventory</strong></div>
+        <div className="login-mobile-brand"><BrandLogo /><strong>Falcon Inventory</strong></div>
         <p className="eyebrow">WELCOME BACK</p>
         <h2>Sign in to your workshop</h2>
         <p className="muted login-intro">Use the account created by your inventory administrator.</p>
